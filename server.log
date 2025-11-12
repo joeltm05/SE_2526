@@ -1,0 +1,7 @@
+[04/09/2025, 17:34:55] 🧹 A limpar tokens expirados da blacklist...
+[04/09/2025, 17:34:56] 📦 Conexão com o banco de dados PostgreSQL estabelecida com sucesso.
+[04/09/2025, 17:34:56] 🧼 0 token(s) expirado(s) apagado(s) da blacklist.
+[04/09/2025, 17:34:56] 📂 Files Sync started
+[04/09/2025, 17:34:57] 📁 Files Sync done
+[04/09/2025, 17:34:57] 🚀 Starting custom Sequelize sync order...
+[04/09/2025, 17:34:59] Synced model's: TokenBlacklist[04/09/2025, 17:34:59] , Perfil[04/09/2025, 17:35:00] , Categoria[04/09/2025, 17:35:00] , TipoDenuncia[04/09/2025, 17:35:03] , File[04/09/2025, 17:35:06] , Utilizador[04/09/2025, 17:35:07] , Area[04/09/2025, 17:35:08] , Topico[04/09/2025, 17:35:09] , Curso[04/09/2025, 17:35:10] , Avaliacao[04/09/2025, 17:35:11] , Assincrono[04/09/2025, 17:35:11] , ConteudoCurso[04/09/2025, 17:35:12] , Notificacao[04/09/2025, 17:35:13] , Sincrono[04/09/2025, 17:35:14] , AvaliacaoFormador[04/09/2025, 17:35:15] , Post[04/09/2025, 17:35:16] , Inscricao[04/09/2025, 17:35:17] , TrabalhoSubmetido[04/09/2025, 17:35:18] , AvaliacaoPost[04/09/2025, 17:35:19] , Denuncia[04/09/2025, 17:35:19] , PushToken[04/09/2025, 17:35:19]  ✅
