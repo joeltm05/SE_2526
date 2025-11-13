@@ -1,4 +1,4 @@
-# Render Blueprint: backend (Node) + frontend (Static via Vite) + Postgres
+# Render Blueprint: backend (Node) + frontend (Static via Vite) using Railway Postgres
 
 services:
   # Backend API service
@@ -18,11 +18,13 @@ services:
       - key: DB_DIALECT
         value: postgres
       - key: DATABASE_URL
-        fromDatabase:
-          name: SE_2526_db
-          property: connectionString
+        value: "postgresql://postgres:WghqLMzKaUZyhkFSJebxpDHVVRrDlyjZ@centerbeam.proxy.rlwy.net:32644/railway"
+      - key: DB_SSL
+        value: "true"
       - key: CORS_ORIGIN
-        value: "*"
+        value: "*" # replace with frontend URL after first deploy
+      - key: JWT_SECRET
+        value: dev-local-secret # or use generateValue: true for a random one
 
   # Frontend (Static Vite site)
   - type: web
@@ -33,9 +35,4 @@ services:
     staticPublishPath: dist
     envVars:
       - key: VITE_API_BASE_URL
-        value: "" # set to backend URL after backend deploys
-
-# Managed Postgres database
-databases:
-  - name: SE_2526_db
-    plan: free
+        value: "" # fill this with backend URL after deploy
