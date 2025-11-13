@@ -1,0 +1,45 @@
+# Render Blueprint: defines backend (Node) + frontend (Static) + Postgres
+# You can deploy this by connecting your repo on Render and choosing "Blueprint".
+
+services:
+  # Backend API service (Node.js)
+  - type: web
+    name: parking-backend
+    env: node
+    plan: free
+    region: frankfurt # choose the closest region to you
+    rootDir: server
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 3001
+      - key: DB_DIALECT
+        value: postgres
+      - key: DATABASE_URL
+        fromDatabase:
+          name: parking-db
+          property: connectionString
+      # Allow CORS from the static site URL (set after first deploy)
+      # e.g., https://parking-web.onrender.com
+      - key: CORS_ORIGIN
+        value: "*"
+
+  # Frontend Static Site (Vite)
+  - type: static
+    name: parking-web
+    plan: free
+    rootDir: web
+    buildCommand: npm install && npm run build
+    staticPublishPath: dist
+    envVars:
+      # Set this to your backend URL after it is created (e.g., https://parking-backend.onrender.com)
+      - key: VITE_API_BASE_URL
+        value: ""
+
+# Managed Postgres database (Free tier)
+databases:
+  - name: parking-db
+    plan: free
