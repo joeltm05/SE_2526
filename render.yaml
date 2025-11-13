@@ -22,9 +22,10 @@ services:
       - key: DB_SSL
         value: "true"
       - key: CORS_ORIGIN
-        value: "*" # replace with frontend URL after first deploy
+        value: "https://se-2526-frontend.onrender.com/"
       - key: JWT_SECRET
-        value: dev-local-secret # or use generateValue: true for a random one
+        generateValue: true
+
 
   # Frontend (Static Vite site)
   - type: web
@@ -35,4 +36,4 @@ services:
     staticPublishPath: dist
     envVars:
       - key: VITE_API_BASE_URL
-        value: "https://se-2526.onrender.com" # fill this with backend URL after deploy
+        value: "https://se-2526.onrender.com"
