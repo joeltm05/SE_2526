@@ -22,21 +22,20 @@ services:
           name: SE_2526_db
           property: connectionString
       - key: CORS_ORIGIN
-        value: "*" # later, replace with frontend URL
+        value: "*"
 
   # Frontend (Static Vite site)
   - type: web
     name: SE_2526_frontend
     env: static
-    plan: free
     rootDir: web
     buildCommand: npm_config_production=false npm ci && npx vite build
     staticPublishPath: dist
     envVars:
       - key: VITE_API_BASE_URL
-        value: "" # set to backend URL after first deploy
+        value: "" # set to backend URL after backend deploys
 
-# Database
+# Managed Postgres database
 databases:
   - name: SE_2526_db
     plan: free
