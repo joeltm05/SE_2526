@@ -2,7 +2,7 @@
 
 services:
   # Backend API service
-  - type: web
+  - type: webmodified:   render.yaml
     name: SE_2526_backend
     env: node
     plan: free
