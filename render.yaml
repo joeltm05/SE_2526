@@ -32,7 +32,12 @@ services:
     name: parking-web
     plan: free
     rootDir: web
-    buildCommand: npm install && npm run build
+    # Ensure devDependencies (vite) are available during the build.
+    # Render sometimes performs a production-only install which omits devDependencies
+    # and causes errors like "sh: 1: vite: Permission denied". Forcing npm to
+    # include dev deps for the install and using npx to run the local vite binary
+    # is a robust approach.
+    buildCommand: npm_config_production=false npm ci && npx vite build
     staticPublishPath: dist
     envVars:
       # Set this to your backend URL after it is created (e.g., https://parking-backend.onrender.com)
