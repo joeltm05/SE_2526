@@ -14,8 +14,14 @@ function parseEntryBody(body) {
     return { ok: true, data: { plate, token } };
 }
 
-async function assignSpotForEntry(plate) {
-    // Prioritize reserved spot for this plate
+router.post('/', requireAuth, async (req, res) => {
+    const parsed = parseEntryBody(req.body);
+    if (!parsed.ok) return res.status(400).json({ error: parsed.error });
+    const { plate, token } = parsed.data;
+
+    const existing = await ParkingSession.findOne({ where: { plate, status: ['parked', 'paid'] } });
+    if (existing) return res.status(400).json({ error: 'Matrícula já tem sessão ativa.' });
+
     const now = new Date();
     const reservation = await Reservation.findOne({
         where: { plate, status: 'active' },
@@ -30,20 +36,7 @@ async function assignSpotForEntry(plate) {
     if (!spot) {
         spot = await Spot.findOne({ where: { status: 'free' }, order: [['id', 'ASC']] });
     }
-    return spot;
-}
-
-// Requer login para registar entrada (evita uso abusivo do endpoint)
-router.post('/', requireAuth, async (req, res) => {
-    const parsed = parseEntryBody(req.body);
-    if (!parsed.ok) return res.status(400).json({ error: parsed.error });
-    const { plate, token } = parsed.data;
-
-    // Check existing active session
-    const existing = await ParkingSession.findOne({ where: { plate, status: ['parked', 'paid'] } });
-    if (existing) return res.status(400).json({ error: 'Matrícula já tem sessão ativa.' });
-
-    const spot = await assignSpotForEntry(plate);
+    spot = await assignSpotForEntry(plate);
     if (!spot) return res.status(409).json({ error: 'Sem lugares disponíveis.' });
 
     spot.status = 'occupied';
@@ -52,7 +45,6 @@ router.post('/', requireAuth, async (req, res) => {
 
     const session = await ParkingSession.create({ plate, spotId: spot.id, status: 'parked', entryTime: new Date() });
 
-    // Optional push notification (if client provided FCM token)
     if (token) await notifyPush(token, 'Entrada registada', `O seu veículo ${plate} ficou no lugar ${spot.label}.`);
 
     res.json({ ok: true, spot: { id: spot.id, label: spot.label }, sessionId: session.id });

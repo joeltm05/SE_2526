@@ -4,7 +4,7 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-const DIALECT = process.env.DB_DIALECT || 'sqlite'; // 'sqlite' or 'postgres'
+const DIALECT = process.env.DB_DIALECT || 'sqlite';
 
 let sequelize;
 if (DIALECT === 'postgres') {

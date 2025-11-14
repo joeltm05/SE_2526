@@ -22,7 +22,7 @@ services:
       - key: DB_SSL
         value: "true"
       - key: CORS_ORIGIN
-        value: "https://se-2526-frontend.onrender.com/"
+        value: "https://se-2526-frontend.onrender.com"
       - key: JWT_SECRET
         generateValue: true
 
